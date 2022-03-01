@@ -9,4 +9,4 @@ license = "MIT OR Apache-2.0"
 keywords = ["pi", "time", "systemtime", "pi_time"]
 
 [dependencies]
-lazy_static = "*"
+lazy_static = "1.4"
