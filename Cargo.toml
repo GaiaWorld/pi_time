@@ -1,12 +1,12 @@
 [package]
 name = "pi_time"
 version = "0.1.0"
-authors = ["vmos <vmos@fairblock.io>"]
+authors = ["luob <luob@gmail.com>"]
 edition = "2021"
 description = "The library is used to obtain the time and is not affected by the system modification time"
 repository = "https://github.com/GaiaWorld/pi_time.git"
 license = "MIT OR Apache-2.0"
-keywords = ["pi", "time", "systemtime", "pi_time"]
+keywords = ["pi", "time", "systemtime"]
 
 [dependencies]
 lazy_static = "1.4"
