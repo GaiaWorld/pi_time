@@ -1,6 +1,6 @@
 [package]
 name = "pi_time"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["luob <luob@gmail.com>"]
 edition = "2021"
 description = "The library is used to obtain the time and is not affected by the system modification time"
@@ -10,3 +10,10 @@ keywords = ["pi", "time", "systemtime"]
 
 [dependencies]
 lazy_static = "1.4"
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+minstant = "0.1"
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+js-sys = "0.3"
+ordered-float = "3.0"

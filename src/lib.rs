@@ -21,7 +21,14 @@ Now 200s
 #[macro_use]
 extern crate lazy_static;
 
-use std::time::Instant;
+#[cfg(target_arch = "wasm32")]
+mod wasm_instant;
+#[cfg(target_arch = "wasm32")]
+pub use wasm_instant::Instant;
+
+#[cfg(not(target_arch = "wasm32"))]
+pub use minstant::Instant;
+
 use std::time::SystemTime;
 
 /// 获取当前本地时间的秒数
@@ -77,3 +84,4 @@ pub fn run_second() -> u64 {
 pub fn start_secs() -> u64 {
     *START_SECS
 }
+
