@@ -54,11 +54,11 @@ impl Instant {
 	}
 
 	pub fn checked_add(&self, duration: Duration) -> Option<Instant> {
-		Some(Self(self.0 + (rhs.as_secs_f64() * 1000.0)))
+		Some(Self(self.0 + (duration.as_secs_f64() * 1000.0)))
 	}
 
 	pub fn checked_sub(&self, duration: Duration) -> Option<Instant> {
-		Some(Self(self.0 - (rhs.as_secs_f64() * 1000.0)))
+		Some(Self(self.0 - (duration.as_secs_f64() * 1000.0)))
 	}
 }
 
