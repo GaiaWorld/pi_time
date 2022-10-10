@@ -81,7 +81,13 @@ pub fn run_second() -> u64 {
 }
 /// 当前进程的启动时间，单位：秒
 #[inline]
+#[cfg(not(target_arch = "wasm32"))]
 pub fn start_secs() -> u64 {
     *START_SECS
+}
+
+#[cfg(target_arch = "wasm32")]
+pub fn start_secs() -> u64 {
+    (js_sys::Date::now()/1000.0) as u64
 }
 
