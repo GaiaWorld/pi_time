@@ -26,9 +26,9 @@ mod wasm_instant;
 #[cfg(target_arch = "wasm32")]
 pub use wasm_instant::Instant;
 
-#[cfg(all(target_os = "linux", target_arch = "x86_64"))]
+#[cfg(all(target_os = "linux", any(target_arch = "x86_64", target_arch = "x86")))]
 pub use minstant::Instant;
-#[cfg(all(target_os = "windows", target_arch = "x86_64"))]
+#[cfg(not(all(target_os = "linux", any(target_arch = "x86_64", target_arch = "x86"))))]
 pub use std::time::Instant;
 
 use std::time::SystemTime;
