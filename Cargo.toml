@@ -1,6 +1,6 @@
 [package]
 name = "pi_time"
-version = "0.2.3"
+version = "0.2.5"
 authors = ["luob <luob@gmail.com>"]
 edition = "2021"
 description = "The library is used to obtain the time and is not affected by the system modification time"
