@@ -5,6 +5,8 @@ use std::{
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
 
+use minstant::{current_cycle, nanos_per_cycle};
+
 /// A measurement of a monotonically nondecreasing clock. Similar to
 /// [`std::time::Instant`](std::time::Instant) but is faster and more
 /// accurate if TSC is available.
@@ -23,7 +25,7 @@ impl Instant {
     /// let now = Instant::now();
     /// ```
     pub fn now() -> Instant {
-        Instant(crate::current_cycle())
+        Instant(current_cycle())
     }
 
     /// Returns the amount of time elapsed from another instant to this one,
@@ -72,7 +74,7 @@ impl Instant {
     /// ```
     pub fn checked_duration_since(&self, earlier: Instant) -> Option<Duration> {
         Some(Duration::from_nanos(
-            (self.0.checked_sub(earlier.0)? as f64 * crate::nanos_per_cycle()) as u64,
+            (self.0.checked_sub(earlier.0)? as f64 * nanos_per_cycle()) as u64,
         ))
     }
 
@@ -128,7 +130,7 @@ impl Instant {
     /// otherwise.
     pub fn checked_add(&self, duration: Duration) -> Option<Instant> {
         self.0
-            .checked_add((duration.as_nanos() as u64 as f64 / crate::nanos_per_cycle()) as u64)
+            .checked_add((duration.as_nanos() as u64 as f64 / nanos_per_cycle()) as u64)
             .map(Instant)
     }
 
@@ -137,7 +139,7 @@ impl Instant {
     /// otherwise.
     pub fn checked_sub(&self, duration: Duration) -> Option<Instant> {
         self.0
-            .checked_sub((duration.as_nanos() as u64 as f64 / crate::nanos_per_cycle()) as u64)
+            .checked_sub((duration.as_nanos() as u64 as f64 / nanos_per_cycle()) as u64)
             .map(Instant)
     }
 
@@ -162,10 +164,10 @@ impl Instant {
     /// ```
     pub fn as_unix_nanos(&self, anchor: &Anchor) -> u64 {
         if self.0 > anchor.cycle {
-            let forward_ns = ((self.0 - anchor.cycle) as f64 * crate::nanos_per_cycle()) as u64;
+            let forward_ns = ((self.0 - anchor.cycle) as f64 * nanos_per_cycle()) as u64;
             anchor.unix_time_ns + forward_ns
         } else {
-            let backward_ns = ((anchor.cycle - self.0) as f64 * crate::nanos_per_cycle()) as u64;
+            let backward_ns = ((anchor.cycle - self.0) as f64 * nanos_per_cycle()) as u64;
             anchor.unix_time_ns - backward_ns
         }
     }
@@ -247,7 +249,7 @@ impl Anchor {
             .as_nanos() as u64;
         Anchor {
             unix_time_ns,
-            cycle: crate::current_cycle(),
+            cycle: current_cycle(),
         }
     }
 }
