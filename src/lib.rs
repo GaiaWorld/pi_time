@@ -27,15 +27,15 @@ mod wasm_instant;
 pub use wasm_instant::Instant;
 
 #[cfg(all(target_os = "linux", any(target_arch = "x86_64", target_arch = "x86")))]
-mod coarse_now;
+pub mod coarse_now;
 #[cfg(all(target_os = "linux", any(target_arch = "x86_64", target_arch = "x86")))]
-mod instant;
+pub mod instant;
 #[cfg(all(target_os = "linux", any(target_arch = "x86_64", target_arch = "x86")))]
-mod tsc_now;
+pub mod tsc_now;
 #[cfg(all(target_os = "linux", any(target_arch = "x86_64", target_arch = "x86")))]
-mod minstant;
+pub mod minstant;
 #[cfg(all(target_os = "linux", any(target_arch = "x86_64", target_arch = "x86")))]
-use minstant::Instant;
+pub use minstant::Instant;
 #[cfg(all(not(all(target_os = "linux", any(target_arch = "x86_64", target_arch = "x86"))), not(target_arch = "wasm32")))]
 pub use std::time::Instant;
 
