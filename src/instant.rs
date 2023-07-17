@@ -5,7 +5,7 @@ use std::{
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
 
-use minstant::{current_cycle, nanos_per_cycle};
+use crate::minstant::{current_cycle, nanos_per_cycle};
 
 /// A measurement of a monotonically nondecreasing clock. Similar to
 /// [`std::time::Instant`](std::time::Instant) but is faster and more

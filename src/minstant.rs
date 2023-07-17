@@ -8,7 +8,7 @@
 pub fn is_tsc_available() -> bool {
     #[cfg(all(target_os = "linux", any(target_arch = "x86", target_arch = "x86_64")))]
     {
-        tsc_now::is_tsc_available()
+        crate::tsc_now::is_tsc_available()
     }
     #[cfg(not(all(target_os = "linux", any(target_arch = "x86", target_arch = "x86_64"))))]
     {
@@ -20,9 +20,9 @@ pub fn is_tsc_available() -> bool {
 pub(crate) fn current_cycle() -> u64 {
     #[cfg(all(target_os = "linux", any(target_arch = "x86", target_arch = "x86_64")))]
     if is_tsc_available() {
-        tsc_now::current_cycle()
+        crate::tsc_now::current_cycle()
     } else {
-        coarse_now::current_cycle()
+        crate::coarse_now::current_cycle()
     }
     #[cfg(not(all(target_os = "linux", any(target_arch = "x86", target_arch = "x86_64"))))]
     {
@@ -34,7 +34,7 @@ pub(crate) fn current_cycle() -> u64 {
 pub(crate) fn nanos_per_cycle() -> f64 {
     #[cfg(all(target_os = "linux", any(target_arch = "x86", target_arch = "x86_64")))]
     {
-        tsc_now::nanos_per_cycle()
+        crate::tsc_now::nanos_per_cycle()
     }
     #[cfg(not(all(target_os = "linux", any(target_arch = "x86", target_arch = "x86_64"))))]
     {
