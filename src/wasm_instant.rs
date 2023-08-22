@@ -1,7 +1,7 @@
 use std::{time::Duration, ops::{Add, AddAssign, Sub, SubAssign}};
 
 
-use js_sys::Date;
+use web_sys::window;
 use ordered_float::NotNan;
 
 #[derive(Clone, Copy, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
@@ -11,14 +11,14 @@ pub struct Instant(NotNan<f64>);
 impl Instant {
 	/// 返回与“现在”相对应的瞬间。
 	pub fn now () -> Instant {
-		Instant(unsafe { NotNan::new_unchecked(Date::now()) })
+		Instant(unsafe { NotNan::new_unchecked(window().unwrap().performance().unwrap().now()) })
 	}
 
 	/// 返回自创建此瞬间以来经过的时间量。
 	/// # panic
 	/// 如果当前时间早于该时刻，则此函数可能会出现恐慌，如果Instant综合生成，则可能会发生这种情况。
 	pub fn elapsed(&self) -> Duration {
-		Duration::from_nanos(((Date::now() - *self.0) * 1000000.0) as u64)
+		Duration::from_nanos(((window().unwrap().performance().unwrap().now() - *self.0) * 1000000.0) as u64)
 	}
 
 	/// 返回从另一时刻到这一时刻所经过的时间量，如果该时刻晚于这一时刻，则返回零持续时间。

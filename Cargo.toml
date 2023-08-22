@@ -1,6 +1,6 @@
 [package]
 name = "pi_time"
-version = "0.3.3"
+version = "0.3.4"
 authors = ["luob <luob@gmail.com>"]
 edition = "2021"
 description = "The library is used to obtain the time and is not affected by the system modification time"
@@ -19,5 +19,6 @@ libc = "0.2"
 wasi = "0.7"
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
+web-sys = {version="0.3", features=["Window"]}
 js-sys = "0.3"
 ordered-float = "3.0"
