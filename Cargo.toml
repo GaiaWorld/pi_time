@@ -1,12 +1,15 @@
 [package]
 name = "pi_time"
-version = "0.3.4"
+version = "0.5.0"
 authors = ["luob <luob@gmail.com>"]
 edition = "2021"
 description = "The library is used to obtain the time and is not affected by the system modification time"
 repository = "https://github.com/GaiaWorld/pi_time.git"
 license = "MIT OR Apache-2.0"
 keywords = ["pi", "time", "systemtime"]
+
+[features]
+high_performance = []
 
 [dependencies]
 ctor = "0.2"
@@ -19,6 +22,9 @@ libc = "0.2"
 wasi = "0.7"
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
-web-sys = {version="0.3", features=["Window"]}
+web-sys = { version="0.3", features = ["Window", "Performance"] }
 js-sys = "0.3"
 ordered-float = "3.0"
+
+[dev-dependencies]
+crossbeam-channel = "0.5"

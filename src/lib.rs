@@ -36,29 +36,73 @@ pub use instant::{Anchor, Instant};
 pub mod tsc_now;
 #[cfg(all(target_os = "linux", any(target_arch = "x86_64", target_arch = "x86")))]
 pub mod minstant;
+#[cfg(feature = "high_performance")]
+mod high_performance_clock;
+#[cfg(feature = "high_performance")]
+pub use high_performance_clock::clock::HPClock;
+
 #[cfg(all(not(all(target_os = "linux", any(target_arch = "x86_64", target_arch = "x86"))), not(target_arch = "wasm32")))]
 pub use std::time::Instant;
 
 use std::time::SystemTime;
 
+#[cfg(feature = "high_performance")]
+lazy_static! {
+    static ref CLOCK: HPClock = HPClock::new();
+}
+
+/// 推动高性能低精度本地时钟
+#[cfg(feature = "high_performance")]
+pub fn tick_clock() {
+    CLOCK.clone().tick()
+}
+
 /// 获取当前本地时间的秒数
+#[cfg(not(feature = "high_performance"))]
 pub fn now_second() -> u64 {
     start_secs() + run_second()
 }
 
+/// 高性能低精度获取当前本地时间的秒数
+#[cfg(feature = "high_performance")]
+pub fn now_second() -> u64 {
+    CLOCK.elapsed().as_secs()
+}
+
 /// 获取当前本地时间的毫秒数
+#[cfg(not(feature = "high_performance"))]
 pub fn now_millisecond() -> u64 {
     start_secs() * 1000 + run_millis()
 }
 
+/// 高性能低精度获取当前本地时间的毫秒数
+#[cfg(feature = "high_performance")]
+pub fn now_millisecond() -> u64 {
+    CLOCK.elapsed().as_millis() as u64
+}
+
 /// 获取当前本地时间的微秒数
+#[cfg(not(feature = "high_performance"))]
 pub fn now_microsecond() -> u64 {
     start_secs() * 1000_000 + run_micros()
 }
 
+/// 高性能低精度获取当前本地时间的微秒数
+#[cfg(feature = "high_performance")]
+pub fn now_microsecond() -> u64 {
+    CLOCK.elapsed().as_micros() as u64
+}
+
 /// 获取当前本地时间的纳秒数
+#[cfg(not(feature = "high_performance"))]
 pub fn now_nanosecond() -> u128 {
     (start_secs() * 1000000000) as u128 + run_nanos() as u128
+}
+
+/// 高性能低精度获获取当前本地时间的纳秒数
+#[cfg(feature = "high_performance")]
+pub fn now_nanosecond() -> u128 {
+    CLOCK.elapsed().as_nanos()
 }
 
 lazy_static! {
