@@ -93,6 +93,9 @@ pub mod clock {
     ///
     pub struct HPClock(Rc<RefCell<InnerHPClock>>);
 
+    unsafe impl Send for HPClock {}
+    unsafe impl Sync for HPClock {}
+
     impl Clone for HPClock {
         fn clone(&self) -> Self {
             HPClock(self.0.clone())
